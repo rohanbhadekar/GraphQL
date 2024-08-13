@@ -1,0 +1,27 @@
+type Query {
+    creditCard(id: String!): CreditCard
+    transactions(cardId: ID!, limit: Int): [Transaction]
+    rewards(cardId: ID!): Rewards
+}
+
+type CreditCard {
+    cardId: String!
+    cardNumber: String!
+    cardType: String!
+    balance: Float!
+    creditLimit: Float!
+    transactions(limit: Int): [Transaction]
+    rewards: Rewards
+}
+
+type Transaction {
+    transactionId: String!
+    date: String!
+    amount: Float!
+    description: String!
+}
+
+type Rewards {
+    points: Int!
+    tier: String!
+}
