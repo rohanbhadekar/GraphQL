@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ApolloClient, InMemoryCache, ApolloProvider, gql, useQuery } from '@apollo/client';
+import { ApolloClient, InMemoryCache, ApolloProvider, gql, useQuery, useSubscription } from '@apollo/client';
 import './App.css';
 
 const client = new ApolloClient({
@@ -7,39 +7,45 @@ const client = new ApolloClient({
     cache: new InMemoryCache(),
 });
 
-function createCreditCardQuery(cardId) {
-    return gql`
-    query {
-        creditCard(id: "${cardId}") {
-            cardId
-            cardNumber
-            cardType
-            balance
-            creditLimit
-            cardHolderName
-            expirationDate
-            billingAddress
-            issueDate
-            interestRate
-            status
+// Query to fetch credit card details using fragments and aliasing
+const CREDIT_CARD_QUERY = gql`
+    query GetCreditCardDetails($id: String!) {
+        card: creditCard(id: $id) {
+            ...CreditCardInfo
             rewards {
-                points
-                tier
-                cashBackRate
-                rewardsExpiryDate
-                bonusEligible
-                lastRedeemedDate
-                pointsToNextTier
+                ...RewardsInfo
             }
         }
-    }`;
-}
+    }
+    fragment CreditCardInfo on CreditCard {
+        cardId
+        cardNumber
+        cardType
+        balance
+        creditLimit
+        cardHolderName
+        expirationDate
+        billingAddress
+        issueDate
+        interestRate
+        status
+    }
+    fragment RewardsInfo on Rewards {
+        points
+        tier
+        cashBackRate
+        rewardsExpiryDate
+        bonusEligible
+        lastRedeemedDate
+        pointsToNextTier
+    }
+`;
 
-function createTransactionQuery(cardId, transactionLimit) {
-    return gql`
-    query {
-        creditCard(id: "${cardId}") {
-            transactions(limit: ${transactionLimit}) {
+// Query to fetch transactions with a limit
+const TRANSACTIONS_QUERY = gql`
+    query GetTransactions($id: String!, $limit: Int!) {
+        creditCard(id: $id) {
+            transactions(limit: $limit) {
                 transactionId
                 date
                 amount
@@ -52,49 +58,67 @@ function createTransactionQuery(cardId, transactionLimit) {
                 isRefundable
             }
         }
-    }`;
-}
+    }
+`;
+
+// Subscription to listen for real-time updates to rewards points
+const REWARDS_SUBSCRIPTION = gql`
+    subscription OnRewardsUpdated($id: String!) {
+        rewardsUpdated(id: $id) {
+            points
+            tier
+            pointsToNextTier
+        }
+    }
+`;
 
 function CreditCardDetails({ cardId }) {
-    const { loading, error, data } = useQuery(createCreditCardQuery(cardId));
+    const { loading, error, data } = useQuery(CREDIT_CARD_QUERY, {
+        variables: { id: cardId },
+    });
+
+    const { data: subscriptionData } = useSubscription(REWARDS_SUBSCRIPTION, {
+        variables: { id: cardId },
+    });
 
     if (loading) return <p>Loading...</p>;
-    if (error) return <p>Error :(</p>;
+    if (error) return <p>Error :( {error.message}</p>;
 
-    const { creditCard } = data;
+    const { card } = data;
 
     return (
         <div>
             <h2>Credit Card Details</h2>
-            <p><strong>Card Number:</strong> {creditCard.cardNumber}</p>
-            <p><strong>Card Type:</strong> {creditCard.cardType}</p>
-            <p><strong>Card ID:</strong> {creditCard.cardId}</p>
-            <p><strong>Balance:</strong> ${creditCard.balance}</p>
-            <p><strong>Credit Limit:</strong> ${creditCard.creditLimit}</p>
-            <p><strong>Card Holder Name:</strong> {creditCard.cardHolderName}</p>
-            <p><strong>Expiration Date:</strong> {creditCard.expirationDate}</p>
-            <p><strong>Billing Address:</strong> {creditCard.billingAddress}</p>
-            <p><strong>Issue Date:</strong> {creditCard.issueDate}</p>
-            <p><strong>Interest Rate:</strong> {creditCard.interestRate}%</p>
-            <p><strong>Status:</strong> {creditCard.status}</p>
+            <p><strong>Card Number:</strong> {card.cardNumber}</p>
+            <p><strong>Card Type:</strong> {card.cardType}</p>
+            <p><strong>Card Holder Name:</strong> {card.cardHolderName}</p>
+            <p><strong>Balance:</strong> ${card.balance}</p>
+            <p><strong>Credit Limit:</strong> ${card.creditLimit}</p>
+            <p><strong>Expiration Date:</strong> {card.expirationDate}</p>
+            <p><strong>Billing Address:</strong> {card.billingAddress}</p>
+            <p><strong>Issue Date:</strong> {card.issueDate}</p>
+            <p><strong>Interest Rate:</strong> {card.interestRate}%</p>
+            <p><strong>Status:</strong> {card.status}</p>
 
             <h2>Rewards</h2>
-            <p><strong>Points:</strong> {creditCard.rewards.points}</p>
-            <p><strong>Tier:</strong> {creditCard.rewards.tier}</p>
-            <p><strong>Cash Back Rate:</strong> {creditCard.rewards.cashBackRate}%</p>
-            <p><strong>Rewards Expiry Date:</strong> {creditCard.rewards.rewardsExpiryDate}</p>
-            <p><strong>Bonus Eligible:</strong> {creditCard.rewards.bonusEligible ? 'Yes' : 'No'}</p>
-            <p><strong>Last Redeemed Date:</strong> {creditCard.rewards.lastRedeemedDate}</p>
-            <p><strong>Points to Next Tier:</strong> {creditCard.rewards.pointsToNextTier}</p>
+            <p><strong>Points:</strong> {subscriptionData?.rewardsUpdated.points || card.rewards.points}</p>
+            <p><strong>Tier:</strong> {subscriptionData?.rewardsUpdated.tier || card.rewards.tier}</p>
+            <p><strong>Cash Back Rate:</strong> {card.rewards.cashBackRate}%</p>
+            <p><strong>Rewards Expiry Date:</strong> {card.rewards.rewardsExpiryDate}</p>
+            <p><strong>Bonus Eligible:</strong> {card.rewards.bonusEligible ? 'Yes' : 'No'}</p>
+            <p><strong>Last Redeemed Date:</strong> {card.rewards.lastRedeemedDate}</p>
+            <p><strong>Points to Next Tier:</strong> {subscriptionData?.rewardsUpdated.pointsToNextTier || card.rewards.pointsToNextTier}</p>
         </div>
     );
 }
 
 function Transactions({ cardId, transactionLimit }) {
-    const { loading, error, data } = useQuery(createTransactionQuery(cardId, transactionLimit));
+    const { loading, error, data } = useQuery(TRANSACTIONS_QUERY, {
+        variables: { id: cardId, limit: transactionLimit },
+    });
 
     if (loading) return <p>Loading...</p>;
-    if (error) return <p>Error :(</p>;
+    if (error) return <p>Error :( {error.message}</p>;
 
     return (
         <div>
@@ -130,33 +154,28 @@ function App() {
                 <button onClick={() => setActiveTab(2)}>Transactions</button>
             </div>
 
-            {activeTab === 1 && (
-                <div className="tab-content">
-                    <h1>Credit Card Details & Rewards</h1>
-                    <input
-                        type="text"
-                        placeholder="Enter Card ID"
-                        value={cardId}
-                        onChange={e => setCardId(e.target.value)}
-                    />
-                    {cardId && <CreditCardDetails cardId={cardId} />}
-                </div>
-            )}
-
-            {activeTab === 2 && (
-                <div className="tab-content">
-                    <h1>Transactions</h1>
-                    <input
-                        type="number"
-                        placeholder="Number of Transactions"
-                        value={transactionLimit}
-                        onChange={e => setTransactionLimit(parseInt(e.target.value))}
-                    />
-                    {cardId && transactionLimit > 0 && (
-                        <Transactions cardId={cardId} transactionLimit={transactionLimit} />
-                    )}
-                </div>
-            )}
+            <div className="tab-content">
+                <input
+                    type="text"
+                    placeholder="Enter Card ID"
+                    value={cardId}
+                    onChange={e => setCardId(e.target.value)}
+                />
+                {activeTab === 1 && cardId && <CreditCardDetails cardId={cardId} />}
+                {activeTab === 2 && (
+                    <>
+                        <input
+                            type="number"
+                            placeholder="Number of Transactions"
+                            value={transactionLimit}
+                            onChange={e => setTransactionLimit(parseInt(e.target.value))}
+                        />
+                        {cardId && transactionLimit > 0 && (
+                            <Transactions cardId={cardId} transactionLimit={transactionLimit} />
+                        )}
+                    </>
+                )}
+            </div>
         </div>
     );
 }
