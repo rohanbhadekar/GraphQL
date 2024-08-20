@@ -10,6 +10,12 @@ type CreditCard {
     cardType: String!
     balance: Float!
     creditLimit: Float!
+    cardHolderName: String
+    expirationDate: String
+    billingAddress: String
+    issueDate: String
+    interestRate: Float
+    status: String
     transactions(limit: Int): [Transaction]
     rewards: Rewards
 }
@@ -19,9 +25,20 @@ type Transaction {
     date: String!
     amount: Float!
     description: String!
+    merchantName: String
+    category: String
+    paymentMethod: String
+    location: String
+    currency: String
+    isRefundable: Boolean
 }
 
 type Rewards {
     points: Int!
     tier: String!
+    cashBackRate: Float
+    rewardsExpiryDate: String
+    bonusEligible: Boolean
+    lastRedeemedDate: String
+    pointsToNextTier: Int
 }

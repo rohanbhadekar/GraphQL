@@ -3,6 +3,7 @@ package com.example.graphql;
 import com.example.graphql.model.CreditCard;
 import com.example.graphql.model.Rewards;
 import com.example.graphql.model.Transaction;
+import graphql.schema.DataFetchingEnvironment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
@@ -19,4 +20,7 @@ public class CreditCardResolver {
     public CreditCard creditCard(@Argument String id) {
         return creditCardService.getCreditCard(id);
     }
+
+
+
 }
