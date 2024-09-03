@@ -1,0 +1,47 @@
+{
+  "1": {
+    "points": 500,
+    "tier": "Gold",
+    "cashBackRate": 1.5,
+    "rewardsExpiryDate": "2025-12-31",
+    "bonusEligible": true,
+    "lastRedeemedDate": "2024-06-15",
+    "pointsToNextTier": 1000
+  },
+  "2": {
+    "points": 1000,
+    "tier": "Platinum",
+    "cashBackRate": 2.0,
+    "rewardsExpiryDate": "2025-12-31",
+    "bonusEligible": true,
+    "lastRedeemedDate": "2024-06-01",
+    "pointsToNextTier": 2000
+  },
+  "3": {
+    "points": 750,
+    "tier": "Silver",
+    "cashBackRate": 1.0,
+    "rewardsExpiryDate": "2025-12-31",
+    "bonusEligible": false,
+    "lastRedeemedDate": "2024-06-10",
+    "pointsToNextTier": 1500
+  },
+  "4": {
+    "points": 300,
+    "tier": "Bronze",
+    "cashBackRate": 0.75,
+    "rewardsExpiryDate": "2025-12-31",
+    "bonusEligible": false,
+    "lastRedeemedDate": "2024-07-10",
+    "pointsToNextTier": 500
+  },
+  "5": {
+    "points": 1200,
+    "tier": "Diamond",
+    "cashBackRate": 2.5,
+    "rewardsExpiryDate": "2025-12-31",
+    "bonusEligible": true,
+    "lastRedeemedDate": "2024-08-05",
+    "pointsToNextTier": 2500
+  }
+}

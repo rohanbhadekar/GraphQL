@@ -1,0 +1,67 @@
+{
+  "1": {
+    "cardId": "1",
+    "cardNumber": "1234-5678-9876-5432",
+    "cardType": "Visa",
+    "balance": 1200.50,
+    "creditLimit": 5000.00,
+    "cardHolderName": "John Doe",
+    "expirationDate": "12/26",
+    "billingAddress": "123 Main St, Cityville",
+    "issueDate": "01/21",
+    "interestRate": 15.99,
+    "status": "Active"
+  },
+  "2": {
+    "cardId": "2",
+    "cardNumber": "8765-4321-1234-5678",
+    "cardType": "MasterCard",
+    "balance": 200.75,
+    "creditLimit": 10000.00,
+    "cardHolderName": "Jane Smith",
+    "expirationDate": "11/25",
+    "billingAddress": "456 Elm St, Townsville",
+    "issueDate": "02/20",
+    "interestRate": 13.99,
+    "status": "Active"
+  },
+  "3": {
+    "cardId": "3",
+    "cardNumber": "4321-8765-5678-1234",
+    "cardType": "American Express",
+    "balance": 2200.00,
+    "creditLimit": 7500.00,
+    "cardHolderName": "Alice Johnson",
+    "expirationDate": "10/24",
+    "billingAddress": "789 Oak St, Villageville",
+    "issueDate": "03/19",
+    "interestRate": 18.99,
+    "status": "Inactive"
+  },
+  "4": {
+    "cardId": "4",
+    "cardNumber": "5555-6666-7777-8888",
+    "cardType": "Discover",
+    "balance": 1500.00,
+    "creditLimit": 6000.00,
+    "cardHolderName": "Robert Brown",
+    "expirationDate": "09/25",
+    "billingAddress": "321 Birch St, Hamletville",
+    "issueDate": "04/22",
+    "interestRate": 17.50,
+    "status": "Active"
+  },
+  "5": {
+    "cardId": "5",
+    "cardNumber": "9999-0000-1111-2222",
+    "cardType": "Visa",
+    "balance": 500.00,
+    "creditLimit": 4000.00,
+    "cardHolderName": "Emily White",
+    "expirationDate": "08/23",
+    "billingAddress": "654 Pine St, Rivertown",
+    "issueDate": "05/21",
+    "interestRate": 12.99,
+    "status": "Inactive"
+  }
+}

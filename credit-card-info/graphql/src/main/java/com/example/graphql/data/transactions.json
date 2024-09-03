@@ -1,0 +1,125 @@
+{
+  "1": [
+    {
+      "transactionId": "t1",
+      "date": "2024-01-01",
+      "amount": -50.00,
+      "description": "Grocery Store",
+      "merchantName": "SuperMart",
+      "category": "Groceries",
+      "paymentMethod": "Credit Card",
+      "location": "Cityville",
+      "currency": "USD",
+      "isRefundable": true
+    },
+    {
+      "transactionId": "t2",
+      "date": "2024-01-02",
+      "amount": 200.00,
+      "description": "Salary",
+      "merchantName": "ABC Corp",
+      "category": "Income",
+      "paymentMethod": "Bank Transfer",
+      "location": "Cityville",
+      "currency": "USD",
+      "isRefundable": false
+    },
+    {
+      "transactionId": "t3",
+      "date": "2024-01-03",
+      "amount": -100.00,
+      "description": "Electronics Store",
+      "merchantName": "TechShop",
+      "category": "Electronics",
+      "paymentMethod": "Credit Card",
+      "location": "Cityville",
+      "currency": "USD",
+      "isRefundable": true
+    }
+    // Add more transactions for card ID 1...
+  ],
+  "2": [
+    {
+      "transactionId": "t4",
+      "date": "2024-01-01",
+      "amount": -150.00,
+      "description": "Furniture Store",
+      "merchantName": "HomeGoods",
+      "category": "Furniture",
+      "paymentMethod": "Credit Card",
+      "location": "Townsville",
+      "currency": "USD",
+      "isRefundable": true
+    },
+    {
+      "transactionId": "t5",
+      "date": "2024-01-02",
+      "amount": 250.00,
+      "description": "Bonus",
+      "merchantName": "XYZ Corp",
+      "category": "Income",
+      "paymentMethod": "Bank Transfer",
+      "location": "Townsville",
+      "currency": "USD",
+      "isRefundable": false
+    }
+    // Add more transactions for card ID 2...
+  ],
+  "3": [
+    {
+      "transactionId": "t6",
+      "date": "2024-01-01",
+      "amount": -500.00,
+      "description": "Online Purchase",
+      "merchantName": "E-Shop",
+      "category": "Electronics",
+      "paymentMethod": "Credit Card",
+      "location": "Online",
+      "currency": "USD",
+      "isRefundable": true
+    }
+    // Add more transactions for card ID 3...
+  ],
+  "4": [
+    {
+      "transactionId": "t7",
+      "date": "2024-01-05",
+      "amount": -60.00,
+      "description": "Bookstore",
+      "merchantName": "Books & More",
+      "category": "Books",
+      "paymentMethod": "Credit Card",
+      "location": "Hamletville",
+      "currency": "USD",
+      "isRefundable": true
+    },
+    {
+      "transactionId": "t8",
+      "date": "2024-01-06",
+      "amount": 180.00,
+      "description": "Freelance Payment",
+      "merchantName": "Gig Economy",
+      "category": "Income",
+      "paymentMethod": "Bank Transfer",
+      "location": "Hamletville",
+      "currency": "USD",
+      "isRefundable": false
+    }
+    // Add more transactions for card ID 4...
+  ],
+  "5": [
+    {
+      "transactionId": "t9",
+      "date": "2024-01-07",
+      "amount": -45.00,
+      "description": "Restaurant",
+      "merchantName": "Dine & Wine",
+      "category": "Food & Drink",
+      "paymentMethod": "Credit Card",
+      "location": "Rivertown",
+      "currency": "USD",
+      "isRefundable": true
+    }
+    // Add more transactions for card ID 5...
+  ]
+}
